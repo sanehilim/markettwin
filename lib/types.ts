@@ -125,22 +125,3 @@ export type MarketTwinReport = {
     issues: ApiIssue[];
   };
 };
-
-export type DexPair = {
-  pairAddress?: string;
-  baseSymbol?: string;
-  quoteSymbol?: string;
-  network?: string;
-  priceUsd?: number;
-  volume24h?: number;
-  liquidity?: number;
-  percentChange24h?: number;
-  txns24h?: number;
-  lastUpdated?: string;
-};
-
-export type DexMonitorResponse = {
-  generatedAt: string;
-  endpoint: EndpointState;
-  pairs: DexPair[];
-};

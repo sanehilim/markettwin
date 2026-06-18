@@ -6,7 +6,6 @@ import { cmcPublicMessage, logProviderIssue } from "@/lib/provider-errors";
 import type {
   ApiIssue,
   AssetQuote,
-  DexPair,
   EndpointState,
   FearGreedPoint,
   GlobalMetrics,
@@ -286,30 +285,6 @@ export async function getKeyInfo() {
   return cmcGet<unknown>("/v1/key/info", {}, "CMC key info", { revalidate: 300 });
 }
 
-export async function getDexPairs() {
-  const limit = Number.isFinite(appConfig.cmcDexPairLimit)
-    ? Math.min(Math.max(Math.trunc(appConfig.cmcDexPairLimit), 1), 100)
-    : 20;
-  const result = await cmcGet<unknown>(
-    "/v4/dex/spot-pairs/latest",
-    {
-      network_slug: appConfig.cmcDexNetworkSlug,
-      dex_slug: appConfig.cmcDexSlug,
-      limit,
-      sort: "volume_24h",
-      sort_dir: "desc"
-    },
-    "DEX spot pairs",
-    { revalidate: 120 }
-  );
-
-  if (!result.ok) return result;
-  return {
-    ...result,
-    data: normalizeDexPairs(result.data, limit)
-  };
-}
-
 function normalizeAssetQuote(payload: unknown, requestedSymbol: string): AssetQuote | null {
   const entries = Array.isArray(payload) ? payload : Object.values((payload as Record<string, unknown>) ?? {});
   const asset = entries.find((entry) => {
@@ -442,35 +417,6 @@ function normalizeTrending(payload: unknown) {
   if (Array.isArray(payload)) return payload.slice(0, 10);
   const data = payload as Record<string, unknown>;
   return Array.isArray(data?.data) ? data.data.slice(0, 10) : [];
-}
-
-function normalizeDexPairs(payload: unknown, limit: number): DexPair[] {
-  const rows = Array.isArray(payload)
-    ? payload
-    : Array.isArray((payload as Record<string, unknown>)?.data)
-      ? ((payload as Record<string, unknown>).data as unknown[])
-      : [];
-
-  return rows.slice(0, limit).map((entry) => {
-    const item = entry as Record<string, unknown>;
-    const base = (item.base_asset ?? item.base_token ?? item.base) as Record<string, unknown> | undefined;
-    const quote = (item.quote_asset ?? item.quote_token ?? item.quote) as Record<string, unknown> | undefined;
-    const quoteMetric = Array.isArray(item.quote) ? (item.quote[0] as Record<string, unknown> | undefined) : undefined;
-    return {
-      pairAddress: stringOrUndefined(item.contract_address ?? item.pair_address ?? item.address),
-      baseSymbol: stringOrUndefined(base?.symbol ?? item.base_asset_symbol ?? item.base_symbol),
-      quoteSymbol: stringOrUndefined(quote?.symbol ?? item.quote_asset_symbol ?? item.quote_symbol),
-      network: stringOrUndefined(item.network_slug ?? item.network_name ?? item.platform_name),
-      priceUsd: numberOrUndefined(item.price_usd ?? item.price_quote ?? item.price ?? quoteMetric?.price),
-      volume24h: numberOrUndefined(item.volume_24h ?? item.volume_usd_24h ?? quoteMetric?.volume_24h),
-      liquidity: numberOrUndefined(item.liquidity ?? item.liquidity_usd ?? quoteMetric?.liquidity),
-      percentChange24h: numberOrUndefined(
-        item.percent_change_24h ?? item.price_change_percentage_24h ?? quoteMetric?.percent_change_price_24h
-      ),
-      txns24h: numberOrUndefined(item.txns_24h ?? item.transactions_24h),
-      lastUpdated: stringOrUndefined(item.last_updated)
-    };
-  });
 }
 
 function pickUsdQuote(quote: unknown): Record<string, unknown> | null {

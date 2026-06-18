@@ -34,8 +34,7 @@ let lastPrune = 0;
 export const rateLimitPolicies = {
   analyze: { name: "analyze", limit: 12, windowMs: 60_000 },
   health: { name: "health", limit: 20, windowMs: 60_000 },
-  market: { name: "market", limit: 60, windowMs: 60_000 },
-  onchain: { name: "onchain", limit: 30, windowMs: 60_000 }
+  market: { name: "market", limit: 60, windowMs: 60_000 }
 } satisfies Record<string, RateLimitPolicy>;
 
 export async function checkRateLimit(request: Request, policy: RateLimitPolicy): Promise<RateLimitResult> {
