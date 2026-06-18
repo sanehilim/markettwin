@@ -1,0 +1,73 @@
+/* Hallmark · tokens: Quiet · paper-band: light · display-style: geometric-sans · accent-hue: cool */
+:root {
+  --font-display: var(--font-geist), "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-geist), "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-outlier: var(--font-jetbrains), "Geist Mono", ui-monospace, monospace;
+  --font-wordmark: var(--font-fraunces), "Newsreader", ui-serif, Georgia, serif;
+
+  --color-paper: oklch(97% 0.008 235);
+  --color-paper-2: oklch(94% 0.01 235);
+  --color-paper-3: oklch(90% 0.012 235);
+  --color-surface: oklch(99% 0.006 235);
+  --color-surface-raised: oklch(95% 0.01 235);
+  --color-ink: oklch(18% 0.018 245);
+  --color-ink-2: oklch(28% 0.016 245);
+  --color-muted: oklch(46% 0.014 245);
+  --color-neutral: oklch(58% 0.012 245);
+  --color-rule: oklch(82% 0.012 245);
+  --color-rule-2: oklch(72% 0.014 245);
+  --color-accent: oklch(55% 0.18 252);
+  --color-accent-2: oklch(63% 0.16 205);
+  --color-accent-ink: oklch(98% 0.008 235);
+  --color-focus: oklch(55% 0.18 252);
+  --color-success: oklch(50% 0.14 154);
+  --color-success-paper: oklch(93% 0.036 154);
+  --color-warning: oklch(58% 0.13 80);
+  --color-warning-paper: oklch(94% 0.04 80);
+  --color-error: oklch(54% 0.18 24);
+  --color-error-paper: oklch(94% 0.035 24);
+
+  --space-3xs: 0.125rem;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.375rem;
+  --text-xl: 1.75rem;
+  --text-2xl: 2.25rem;
+  --text-3xl: 3rem;
+  --text-4xl: 3.75rem;
+  --text-display: 4.5rem;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+
+  --rule-hair: 1px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-pill: 999px;
+  --shadow-whisper: 0 1px 2px oklch(18% 0.018 245 / 0.06);
+  --shadow-float: 0 20px 60px oklch(18% 0.018 245 / 0.12);
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+}
