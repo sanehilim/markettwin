@@ -3,9 +3,6 @@ export const appConfig = {
   siteUrl: siteUrl(),
   cmcBaseUrl: process.env.CMC_BASE_URL ?? "https://pro-api.coinmarketcap.com",
   cmcApiKey: process.env.COINMARKETCAP_API_KEY ?? "",
-  cmcDexNetworkSlug: process.env.CMC_DEX_NETWORK_SLUG ?? "ethereum",
-  cmcDexSlug: process.env.CMC_DEX_SLUG ?? "uniswap-v3",
-  cmcDexPairLimit: positiveInteger(process.env.CMC_DEX_PAIR_LIMIT, 20),
   openaiApiKey: process.env.OPENAI_API_KEY ?? "",
   openaiModel: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
   apiHealthAdminToken: process.env.API_HEALTH_ADMIN_TOKEN ?? "",
@@ -48,9 +45,4 @@ function siteUrl() {
 function withHttps(value: string | undefined) {
   if (!value) return undefined;
   return /^https?:\/\//i.test(value) ? value : `https://${value}`;
-}
-
-function positiveInteger(value: string | undefined, fallback: number) {
-  const number = Number(value ?? fallback);
-  return Number.isFinite(number) && number > 0 ? Math.trunc(number) : fallback;
 }

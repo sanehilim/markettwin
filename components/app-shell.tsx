@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, BarChart3, Blocks, BrainCircuit, Gauge, Menu, Settings, X } from "lucide-react";
+import { Activity, BarChart3, BrainCircuit, Gauge, Menu, Settings, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const navItems = [
@@ -10,7 +10,6 @@ const navItems = [
   { href: "/analyze", label: "Analyze", icon: BrainCircuit },
   { href: "/twins", label: "Twins", icon: BarChart3 },
   { href: "/research", label: "Research", icon: Activity },
-  { href: "/onchain", label: "On-chain", icon: Blocks },
   { href: "/api-health", label: "Health", icon: Gauge },
   { href: "/settings", label: "Settings", icon: Settings }
 ];
@@ -53,7 +52,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </Link>
 
         <div className="nav-links">
-          {navItems.slice(0, 5).map((item) => (
+          {navItems.slice(0, 4).map((item) => (
             <Link
               className="nav-link"
               data-active={isActive(pathname, item.href)}
@@ -110,9 +109,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="footer-links" aria-label="Footer">
           <Link className="footer-link" href="/research">
             Method
-          </Link>
-          <Link className="footer-link" href="/onchain">
-            On-chain
           </Link>
           <Link className="footer-link" href="/api-health">
             Health
