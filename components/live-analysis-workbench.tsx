@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { AlertCircle, ArrowRight, CheckCircle2, CircleDollarSign, Database, Loader2 } from "lucide-react";
 import type { CSSProperties } from "react";
 import { FormEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
@@ -16,11 +17,13 @@ type LoadState = "idle" | "loading" | "success" | "error";
 export function LiveAnalysisWorkbench({
   initialSymbol = "BTC",
   autoRun = true,
-  compact = false
+  compact = false,
+  hero = false
 }: {
   initialSymbol?: string;
   autoRun?: boolean;
   compact?: boolean;
+  hero?: boolean;
 }) {
   const [symbol, setSymbol] = useState(initialSymbol);
   const [touched, setTouched] = useState(false);
@@ -108,7 +111,7 @@ export function LiveAnalysisWorkbench({
   }, [report]);
 
   return (
-    <div className="workbench-frame reveal" style={{ "--i": 1 } as CSSProperties}>
+    <div className={hero ? "workbench-frame agent-workbench reveal" : "workbench-frame reveal"} style={{ "--i": 1 } as CSSProperties}>
       <form className="analysis-form" onSubmit={onSubmit}>
         <label className="field-label" htmlFor={fieldId}>
           Market symbol
@@ -128,8 +131,10 @@ export function LiveAnalysisWorkbench({
             />
             <p className="helper" data-tone={invalid ? "error" : undefined} id={`${fieldId}-helper`}>
               {invalid
-                ? "That symbol is not valid. Use 2–12 letters or numbers."
-                : "Runs against CoinMarketCap quotes, historical data, global metrics, and sentiment."}
+                ? "That symbol is not valid. Use 2-12 letters or numbers."
+                : hero
+                  ? "Agent reads quotes, history, market regime, and sentiment before writing the brief."
+                  : "Runs against CoinMarketCap quotes, historical data, global metrics, and sentiment."}
             </p>
           </div>
           <Button
@@ -138,14 +143,14 @@ export function LiveAnalysisWorkbench({
             state={state === "loading" ? "loading" : state === "error" ? "error" : "idle"}
             type="submit"
           >
-            Analyze
+            {hero ? "Run agent" : "Analyze"}
           </Button>
         </div>
       </form>
 
       {state === "loading" ? (
         <div aria-live="polite">
-          <LoadingWorkbench />
+          <LoadingWorkbench compact={hero} />
         </div>
       ) : null}
       {state === "error" && error ? (
@@ -159,7 +164,9 @@ export function LiveAnalysisWorkbench({
         </Surface>
       ) : null}
 
-      {report ? (
+      {report && hero ? <AgentHeroResult report={report} endpointTone={endpointTone} /> : null}
+
+      {report && !hero ? (
         <>
           <div className="badge-row">
             <Badge tone="ink" icon={<CircleDollarSign size={14} />}>
@@ -268,9 +275,68 @@ export function LiveAnalysisWorkbench({
   );
 }
 
-function LoadingWorkbench() {
+function AgentHeroResult({
+  report,
+  endpointTone
+}: {
+  report: MarketTwinReport;
+  endpointTone: "success" | "warning" | "error" | undefined;
+}) {
+  const bestTwin = report.twins[0];
+  const brief = bestTwin
+    ? `${report.symbol} is closest to ${dateOnly(bestTwin.date)} at ${bestTwin.similarity.toFixed(
+        1
+      )}% similarity. The analog set shows ${formatPercent(
+        report.prediction.averageReturn14d
+      )} average 14d return with ${report.prediction.confidence.toLowerCase()} confidence.`
+    : "The agent needs more historical coverage before it can rank reliable twins for this symbol.";
+
   return (
-    <div className="panel-grid" data-cols="3" aria-live="polite" aria-busy="true">
+    <div className="agent-result">
+      <div className="badge-row">
+        <Badge tone="ink" icon={<CircleDollarSign size={14} />}>
+          {report.asset?.symbol ?? report.symbol}
+        </Badge>
+        <Badge tone={endpointTone} icon={endpointTone === "success" ? <CheckCircle2 size={14} /> : <Database size={14} />}>
+          {report.dataCoverage.historicalPoints} history points
+        </Badge>
+        <Badge>{new Date(report.generatedAt).toLocaleTimeString()}</Badge>
+      </div>
+
+      <div className="agent-metric-grid">
+        <div className="agent-metric-card" data-tone="ink">
+          <span className="metric-label">Current price</span>
+          <strong className="metric-value">{formatCurrency(report.asset?.price)}</strong>
+          <span className="caption">
+            24h {formatPercent(report.asset?.percentChange24h)} / 7d {formatPercent(report.asset?.percentChange7d)}
+          </span>
+        </div>
+        <div className="agent-metric-card">
+          <span className="metric-label">Bullish probability</span>
+          <strong className="metric-value">{formatProbability(report.prediction.bullishProbability)}</strong>
+          <span className="caption">From nearest historical twins.</span>
+        </div>
+        <div className="agent-metric-card">
+          <span className="metric-label">Best twin</span>
+          <strong className="metric-value">{bestTwin ? `${bestTwin.similarity.toFixed(1)}%` : "-"}</strong>
+          <span className="caption">{bestTwin ? dateOnly(bestTwin.date) : "Waiting for history"}</span>
+        </div>
+      </div>
+
+      <div className="agent-brief">
+        <span className="stage">Agent brief</span>
+        <p>{brief}</p>
+        <Link className="button" data-variant="secondary" href="/analyze">
+          Inspect full report <ArrowRight size={16} />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function LoadingWorkbench({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={compact ? "agent-metric-grid" : "panel-grid"} data-cols={compact ? undefined : "3"} aria-live="polite" aria-busy="true">
       <div className="surface">
         <div className="skeleton" />
         <div className="skeleton" />
