@@ -25,8 +25,8 @@ export default function PrivacyPage() {
         <Surface>
           <h2 className="section-title">Data processed</h2>
           <p>
-            Symbol searches, provider health checks, and DEX monitor refreshes are processed to return live market
-            research. The app does not ask for wallet seed phrases, exchange credentials, or payment information.
+            Symbol searches, analysis requests, and provider health checks are processed to return live market research.
+            The app does not ask for wallet seed phrases, exchange credentials, or payment information.
           </p>
         </Surface>
         <Surface>

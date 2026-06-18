@@ -28,8 +28,8 @@ export default function ResearchPage() {
           <Database size={22} />
           <h2 className="section-title">Data intake</h2>
           <p>
-            Latest quotes, historical quotes, global metrics, sentiment, and DEX spot-pair data are pulled through
-            server-side CMC routes so API keys never reach the browser.
+            Latest quotes, historical quotes, global metrics, and sentiment are pulled through server-side CMC routes so
+            API keys never reach the browser.
           </p>
         </Surface>
         <Surface>

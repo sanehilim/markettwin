@@ -7,7 +7,6 @@ const routes = [
   "/analyze",
   "/twins",
   "/research",
-  "/onchain",
   "/api-health",
   "/settings",
   "/risk",

@@ -40,16 +40,16 @@ export default function OpenGraphImage() {
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div style={{ fontSize: 76, fontWeight: 800, letterSpacing: 0, lineHeight: 1 }}>
-            Find today&apos;s market twin.
+            Your AI market twin agent.
           </div>
           <div style={{ color: "#435268", fontSize: 30, lineHeight: 1.35, maxWidth: 900 }}>
-            Live CoinMarketCap data, historical analogs, on-chain DEX context, and bounded AI research summaries.
+            Live CoinMarketCap data, historical analogs, market-regime scoring, and bounded AI research summaries.
           </div>
         </div>
         <div style={{ color: "#5b687a", display: "flex", fontSize: 24, gap: 18 }}>
           <span>CMC live data</span>
           <span>Historical analog engine</span>
-          <span>DEX liquidity monitor</span>
+          <span>AI research brief</span>
         </div>
       </div>
     ),
