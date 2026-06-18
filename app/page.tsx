@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Database, GitCompareArrows } from "lucide-react";
+import { ArrowRight, BrainCircuit, Database, Gauge, GitCompareArrows, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 
@@ -13,49 +13,94 @@ export const metadata: Metadata = {
   }
 };
 
+const agentStages = [
+  {
+    icon: Database,
+    title: "Ingest live state",
+    copy: "CoinMarketCap quotes, historical prices, global market metrics, and sentiment are normalized server-side."
+  },
+  {
+    icon: Gauge,
+    title: "Score the fingerprint",
+    copy: "Momentum, RSI, MACD, volatility, volume ratio, dominance, and fear-greed become one comparable market vector."
+  },
+  {
+    icon: GitCompareArrows,
+    title: "Rank historical twins",
+    copy: "The agent searches prior market states, calculates forward returns, and exposes data gaps before the brief is written."
+  }
+];
+
 export default function HomePage() {
   return (
     <div className="page">
       <div className="hero-workbench">
         <section className="hero-copy reveal" style={{ "--i": 0 } as CSSProperties}>
           <div className="badge-row">
-            <span className="badge">CMC live data</span>
-            <span className="badge">Historical analog engine</span>
+            <span className="badge">AI research agent</span>
+            <span className="badge">Live CMC data</span>
+            <span className="badge">Historical twin engine</span>
           </div>
-          <h1 className="hero-title">Find today’s market twin.</h1>
+          <h1 className="hero-title">Your AI market twin agent.</h1>
           <p className="lede">
-            Compare the current crypto market fingerprint with prior regimes, then inspect what happened after the
-            closest matches.
+            Ask for any tracked crypto symbol. MarketTwin reads the live market state, finds the closest historical
+            regimes, and turns the evidence into a bounded research brief.
           </p>
+          <dl className="agent-proof-strip" aria-label="Agent pipeline">
+            <div>
+              <dt>Input</dt>
+              <dd>Symbol</dd>
+            </div>
+            <div>
+              <dt>Model</dt>
+              <dd>Feature vector</dd>
+            </div>
+            <div>
+              <dt>Output</dt>
+              <dd>Research brief</dd>
+            </div>
+          </dl>
           <div className="hero-actions">
             <Link href="/analyze" className="button">
-              Run analysis <ArrowRight size={16} />
+              Open full agent <ArrowRight size={16} />
             </Link>
             <Link href="/research" className="button" data-variant="secondary">
               View method
             </Link>
           </div>
         </section>
-        <LiveAnalysisWorkbench compact />
+        <LiveAnalysisWorkbench hero compact />
       </div>
 
       <div className="page-grid">
         <MarketStatusStrip />
+        <div className="agent-architecture-grid">
+          {agentStages.map((stage) => {
+            const Icon = stage.icon;
+            return (
+              <Surface key={stage.title}>
+                <Icon size={22} />
+                <h2 className="section-title">{stage.title}</h2>
+                <p>{stage.copy}</p>
+              </Surface>
+            );
+          })}
+        </div>
         <div className="panel-grid" data-cols="2">
           <Surface>
-            <GitCompareArrows size={22} />
-            <h2 className="section-title">Analogs, not guesses</h2>
+            <BrainCircuit size={22} />
+            <h2 className="section-title">Agent-first workflow</h2>
             <p>
-              The engine builds a market vector from momentum, sentiment, volatility, volume, and dominance, then
-              compares that vector with historical states.
+              The AI layer does not invent prices or predictions. It summarizes the live CMC-backed report, cites the
+              nearest analog behavior, and keeps uncertainty visible.
             </p>
           </Surface>
           <Surface>
-            <Database size={22} />
-            <h2 className="section-title">Live endpoints stay visible</h2>
+            <ShieldCheck size={22} />
+            <h2 className="section-title">Production guardrails</h2>
             <p>
-              Each run reports the CMC endpoints it used, the historical coverage available, and any plan limits that
-              affect the result.
+              Server-side keys, rate limits, provider health checks, symbol resolution, and endpoint coverage notes keep
+              the research flow honest when a data plan or provider is constrained.
             </p>
           </Surface>
         </div>
