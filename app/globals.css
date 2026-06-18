@@ -1,4 +1,4 @@
-/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · genre: modern-minimal · macrostructure: Workbench · theme: Quiet · enrichment: none · nav: N5 · footer: Ft2 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · genre: modern-minimal · macrostructure: Split Studio · theme: Quiet · enrichment: none · nav: N5 · footer: Ft2 */
 @import "../tokens.css";
 @import "tailwindcss";
 
@@ -280,7 +280,7 @@ button:disabled {
 .page {
   width: min(100%, 88rem);
   margin: 0 auto;
-  padding: 6.5rem clamp(1rem, 4%, 3rem) var(--space-2xl);
+  padding: 5.75rem clamp(1rem, 4%, 3rem) var(--space-2xl);
 }
 
 .page-grid {
@@ -290,9 +290,9 @@ button:disabled {
 
 .hero-workbench {
   display: grid;
-  gap: var(--space-xl);
-  align-items: end;
-  padding-block: var(--space-xl);
+  gap: clamp(var(--space-lg), 4vw, var(--space-2xl));
+  align-items: center;
+  padding-block: clamp(var(--space-xl), 7vw, 5rem);
 }
 
 .hero-copy {
@@ -313,7 +313,7 @@ button:disabled {
 }
 
 .hero-title {
-  max-width: 12ch;
+  max-width: 14ch;
   font-size: var(--text-3xl);
   font-weight: 720;
 }
@@ -353,6 +353,42 @@ button:disabled {
   align-items: center;
 }
 
+.agent-proof-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 36rem;
+  margin: 0;
+  border-block: var(--rule-hair) solid var(--color-rule);
+}
+
+.agent-proof-strip div {
+  display: grid;
+  gap: var(--space-2xs);
+  min-width: 0;
+  padding: var(--space-sm) var(--space-sm) var(--space-sm) 0;
+}
+
+.agent-proof-strip div + div {
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-hair) solid var(--color-rule);
+}
+
+.agent-proof-strip dt,
+.agent-proof-strip dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.agent-proof-strip dt {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+}
+
+.agent-proof-strip dd {
+  font-weight: 650;
+}
+
 .workbench-frame {
   position: relative;
   display: grid;
@@ -372,6 +408,73 @@ button:disabled {
   pointer-events: none;
   border: var(--rule-hair) solid color-mix(in oklch, var(--color-rule) 62%, transparent);
   border-radius: var(--radius-sm);
+}
+
+.agent-workbench {
+  align-self: center;
+  gap: var(--space-md);
+  overflow: hidden;
+}
+
+.agent-workbench::before {
+  display: none;
+}
+
+.agent-result {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.agent-metric-grid {
+  display: grid;
+  gap: var(--space-sm);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.agent-metric-card {
+  display: grid;
+  gap: var(--space-xs);
+  min-width: 0;
+  min-height: 9rem;
+  align-content: center;
+  padding: var(--space-md);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-sm);
+  background: var(--color-paper);
+}
+
+.agent-metric-card[data-tone="ink"] {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.agent-metric-card[data-tone="ink"] .metric-label,
+.agent-metric-card[data-tone="ink"] .caption {
+  color: color-mix(in oklch, var(--color-paper) 74%, var(--color-neutral));
+}
+
+.agent-brief {
+  display: grid;
+  gap: var(--space-sm);
+  padding-block-start: var(--space-sm);
+  border-block-start: var(--rule-hair) solid var(--color-rule);
+}
+
+.agent-brief p {
+  max-width: 66ch;
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.agent-brief .button {
+  justify-self: start;
+}
+
+.agent-architecture-grid {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .panel-grid {
@@ -727,6 +830,10 @@ button:disabled {
   .stat-strip {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+
+  .agent-metric-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 60rem) {
@@ -739,11 +846,12 @@ button:disabled {
   }
 
   .page {
-    padding-block-start: 7.5rem;
+    padding-block-start: 6.75rem;
   }
 
   .hero-workbench {
-    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    min-height: min(48rem, calc(100dvh - 6.75rem));
+    grid-template-columns: minmax(20rem, 0.9fr) minmax(0, 1.1fr);
   }
 
   .panel-grid[data-cols="2"] {
@@ -752,6 +860,10 @@ button:disabled {
 
   .panel-grid[data-cols="3"] {
     grid-template-columns: 1.12fr 0.88fr 0.88fr;
+  }
+
+  .agent-architecture-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
